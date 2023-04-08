@@ -1,6 +1,9 @@
 import connectionDb from "../config/database.js";
+import { CreateBookType, TakeBookType, UpdateStatusBookType } from "@/protocols/book.js";
+import { QueryResult } from "pg";
 
-async function create({ name, author, userId }) {
+
+async function create({ name, author, userId }: CreateBookType): Promise<void> {
   await connectionDb.query(
     `
         INSERT INTO books (name, author, "userId")
@@ -10,7 +13,7 @@ async function create({ name, author, userId }) {
   );
 }
 
-async function findByName(name) {
+async function findByName(name: string) {
   return await connectionDb.query(
     `
         SELECT * FROM books WHERE name = $1;
@@ -19,7 +22,7 @@ async function findByName(name) {
   );
 }
 
-async function findAll() {
+async function findAll(): Promise<QueryResult<any>> {
   return await connectionDb.query(
     `
         SELECT 
@@ -32,7 +35,7 @@ async function findAll() {
   );
 }
 
-async function findById(id) {
+async function findById(id: number) {
   return await connectionDb.query(
     `
           SELECT * FROM books 
@@ -42,7 +45,7 @@ async function findById(id) {
   );
 }
 
-async function updateStatusBook(status, bookId) {
+async function updateStatusBook({status, bookId}: UpdateStatusBookType): Promise<void> {
   await connectionDb.query(
     `
       UPDATE books
@@ -53,7 +56,7 @@ async function updateStatusBook(status, bookId) {
   );
 }
 
-async function takeBook(userId, bookId) {
+async function takeBook({userId, bookId}: TakeBookType): Promise<void> {
   await connectionDb.query(
     `
       INSERT INTO "myBooks" ("userId", "bookId")
@@ -63,7 +66,7 @@ async function takeBook(userId, bookId) {
   );
 }
 
-async function findAllMyBooks(userId) {
+async function findAllMyBooks(userId: number) {
   return await connectionDb.query(
     `
     SELECT 

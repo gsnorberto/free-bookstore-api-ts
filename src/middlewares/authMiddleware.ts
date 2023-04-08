@@ -1,7 +1,8 @@
 import errors from "../errors/index.js";
 import userRepositories from "../repositories/userRepositories.js";
+import { Request, Response, NextFunction } from "express";
 
-async function authValidation(req, res, next) {
+async function authValidation(req: Request, res: Response, next: NextFunction) {
   const { authorization } = req.headers;
   const token = authorization?.replace("Bearer ", "");
 
@@ -18,7 +19,7 @@ async function authValidation(req, res, next) {
     } = await userRepositories.findById(session.userId);
     if (!user) throw errors.notFoundError();
 
-    res.locals.user = user;
+    res.locals.user = Number(user);
     next();
   } catch (err) {
     next(err);

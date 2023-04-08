@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "module": "ES6",
+        "outDir": "dist",
+        "noImplicitAny": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "rootDirs": [
+            "src"
+        ],
+        "baseUrl": "src",
+        "moduleResolution": "Node",
+        "paths": {
+            "@/*": [
+                "*"
+            ]
+        },
+        "plugins": [
+            {
+                "transform": "typescript-transform-paths"
+            }
+        ]
+    },
+    "ts-node": {
+        "esm": true
+    },
+    "include": [
+        "src"
+    ]
+}

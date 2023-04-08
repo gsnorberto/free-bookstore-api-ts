@@ -1,6 +1,6 @@
 import { DefaultErrorType, EmailErrorType } from "@/protocols/error";
 
-function conflictError(message: string): DefaultErrorType {
+function conflictError(message: string | string[]): DefaultErrorType {
   return {
     name: "ConflictError",
     message,

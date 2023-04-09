@@ -1,6 +1,6 @@
 import userServices from "../services/userServices.js";
 import { Request, Response, NextFunction } from "express";
-import { CreateUserType, UserSignInType } from "@/protocols/user.js";
+import { CreateUserType, UserSignInType } from "../protocols/user.js";
 
 async function create(req: Request, res: Response, next: NextFunction) {
   const data = req.body;

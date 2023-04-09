@@ -1,7 +1,8 @@
 import connectionDb from "../config/database.js";
-import { CreateUserType, CreateSessionType } from "@/protocols/user.js";
+import { QueryResult } from "pg";
+import { CreateUserType, CreateSessionType } from "../protocols/user.js";
 
-async function findByEmail(email: string) {
+async function findByEmail(email: string): Promise<QueryResult<CreateUserType>>  {
   return await connectionDb.query(
     `    
     SELECT * FROM users WHERE email=$1
@@ -10,7 +11,7 @@ async function findByEmail(email: string) {
   );
 }
 
-async function create({ name, email, password }: CreateUserType) {
+async function create({ name, email, password }: CreateUserType): Promise<void> {
   await connectionDb.query(
     `
         INSERT INTO users (name, email, password)
@@ -20,7 +21,7 @@ async function create({ name, email, password }: CreateUserType) {
   );
 }
 
-async function createSession({ token, userId }: CreateSessionType) {
+async function createSession({ token, userId }: CreateSessionType): Promise<void> {
   await connectionDb.query(
     `
         INSERT INTO sessions (token, "userId")
@@ -30,7 +31,7 @@ async function createSession({ token, userId }: CreateSessionType) {
   );
 }
 
-async function findSessionByToken(token: string) {
+async function findSessionByToken(token: string): Promise<QueryResult<CreateSessionType>> {
   return await connectionDb.query(
     `
         SELECT * FROM sessions WHERE token = $1
@@ -39,7 +40,7 @@ async function findSessionByToken(token: string) {
   );
 }
 
-async function findById(id: number) {
+async function findById(id: number): Promise<QueryResult<CreateUserType>> {
   return await connectionDb.query(
     `    
     SELECT * FROM users WHERE id=$1

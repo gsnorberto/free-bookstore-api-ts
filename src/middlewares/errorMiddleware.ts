@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import { Request, Response, NextFunction } from "express";
-import { DefaultErrorType } from "@/protocols/error";
+import { DefaultErrorType } from "../protocols/error.js";
 
 export function handleApplicationErrors(err: DefaultErrorType, req: Request, res: Response, next: NextFunction) {
   if (err.name === "ConflictError" || err.name === "DuplicatedEmailError") {

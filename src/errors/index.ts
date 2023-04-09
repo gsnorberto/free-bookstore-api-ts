@@ -1,4 +1,4 @@
-import { DefaultErrorType, EmailErrorType } from "@/protocols/error";
+import { DefaultErrorType, EmailErrorType } from "../protocols/error.js";
 
 function conflictError(message: string | string[]): DefaultErrorType {
   return {

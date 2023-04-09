@@ -1,5 +1,5 @@
 import connectionDb from "../config/database.js";
-import { CreateBookType, TakeBookType, UpdateStatusBookType } from "@/protocols/book.js";
+import { BookDataType, FindAllBooksType, CreateBookType, TakeBookType, UpdateStatusBookType, FindAllMyBooksType } from "../protocols/book.js";
 import { QueryResult } from "pg";
 
 
@@ -13,20 +13,29 @@ async function create({ name, author, userId }: CreateBookType): Promise<void> {
   );
 }
 
-async function findByName(name: string) {
+async function findByName(name: string): Promise<QueryResult<BookDataType>> {
   return await connectionDb.query(
     `
-        SELECT * FROM books WHERE name = $1;
+        SELECT
+          id as bookId,
+          name,
+          author,
+          available as status,
+          userId
+        FROM books WHERE name = $1;
     `,
     [name]
   );
 }
 
-async function findAll(): Promise<QueryResult<any>> {
+async function findAll(): Promise<QueryResult<FindAllBooksType>> {
   return await connectionDb.query(
     `
         SELECT 
-          b.id, b.name, b.author, b.available, 
+          b.id as bookId,
+          b.name,
+          b.author,
+          b.available as status, 
           u.name as "createdBy"
         FROM books b
         JOIN users u
@@ -35,10 +44,16 @@ async function findAll(): Promise<QueryResult<any>> {
   );
 }
 
-async function findById(id: number) {
+async function findById(id: number): Promise<QueryResult<BookDataType>> {
   return await connectionDb.query(
     `
-          SELECT * FROM books 
+          SELECT
+            id as bookId,
+            name,
+            author,
+            available as status,
+            userId
+          FROM books 
           WHERE id = $1;
       `,
     [id]
@@ -66,13 +81,13 @@ async function takeBook({userId, bookId}: TakeBookType): Promise<void> {
   );
 }
 
-async function findAllMyBooks(userId: number) {
+async function findAllMyBooks(userId: number): Promise<QueryResult<FindAllMyBooksType>> {
   return await connectionDb.query(
     `
     SELECT 
-      u.name as "user_name",
-      b.name as "book_name",
-      b.author as "book_author" 
+      u.name as "userName",
+      b.name as "bookName",
+      b.author as "bookAuthor" 
     FROM "myBooks" m
       JOIN users u ON m."userId" = u.id
       JOIN books b ON m."bookId" = b.id
@@ -81,6 +96,15 @@ async function findAllMyBooks(userId: number) {
     [userId]
   );
 }
+
+// async function deleteById(userId: number) {
+//   return await connectionDb.query(
+//     `
+//     DELETE FROM "books" 
+//     `,
+//     [userId]
+//   );
+// }
 
 export default {
   create,

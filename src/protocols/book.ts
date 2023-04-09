@@ -12,13 +12,13 @@ export type FindAllBooksType = {
     author: string,
     status: boolean,
     createdBy: string
-}[]
+}
 
 export type FindAllMyBooksType = {
     userName: string,
     bookName: string,
     bookAuthor: string
-}[]
+}
 
 export type UpdateStatusBookType = {
     status: boolean,

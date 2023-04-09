@@ -3,7 +3,7 @@ import userRepositories from "../repositories/userRepositories.js";
 import { v4 as uuidV4 } from "uuid";
 import errors from "../errors/index.js";
 
-import { CreateUserType, UserSignInType, CreateSessionType } from "@/protocols/user.js";
+import { CreateUserType, UserSignInType, CreateSessionType } from "../protocols/user.js";
 
 async function create({ name, email, password }: CreateUserType): Promise<void> {
   const { rowCount } = await userRepositories.findByEmail(email);
